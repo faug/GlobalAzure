@@ -27,7 +27,7 @@ In order to participate on the GAB Science Lab you will need:
     * locally on your laptop using Docker Desktop, follow instructions at https://www.docker.com/products/docker-desktop
     * on any other environment, check https://docs.docker.com/install/
 
-## Deeployinhg the lab using Azure Kubernetes Service (AKS)
+## Deploying the lab using Azure Kubernetes Service (AKS)
 1. First, you need to create an Azure Kuberetes Service cluster. You can do it from AZ CLI or from Cloud Shell (https://shell.azure.com):
 
 ``` shell
@@ -85,10 +85,29 @@ The easiest way to deploy the Science Lab is by using Azure Container Instances.
 
 Click on the Accept the Terms and Conditions checkbox, and relax waiting for the green check. Will take around 5 minutes to complete.
 
-![Deployment completed](https://github.com/intelequia/GAB2019ScienceLab/raw/master/images/Deployment2.jpg)
+
+# Verifying the lab is working properly (AKS)
+Wait until the external IP address of the service is provisioned by running the following:
+
+``` shell
+kubectl get services -w
+```
 
 
-# Verifying the lab is working properly
+![AKS URL](https://raw.githubusercontent.com/faug/GlobalAzure/master/ScienceLab/kubernetes/Deployment8.png)
+
+Copy the EXTERNAL IP address and navigate to it using browser. You will be able to see if the lab is working properly. There are three areas:
+* **Inputs Downloaded**: a green light indicates that is working properly. Every 10 seconds a background process checks if there are no inputs to process, and then downloads a new batch of inputs;
+* **Processing**: a green light indicates that is working properly. A background process starts processing the inputs as soon as they are available locally. The inputs are processed one by one and results are saved into an internal output queue;
+* **Ouputs Uploaded**: a green light indicates that is working properly. Every 10 seconds a background process checks if there are outputs ready to be uploaded to the GAB server.
+
+There is also a log area where you can check what is happening inside the GAB client.
+
+![AKS Deployment completed](https://raw.githubusercontent.com/faug/GlobalAzure/master/ScienceLab/kubernetes/Deployment7.png)
+
+Each input takes around 5 minutes to be processed by a container (pipeline 1 + pipeline 2 execution times). After the input is processed, it goes to the upload queue, and once uploaded, you start appearing on the Global Azure Bootcamp Science lab Dashboards, available at https://gablabdashboard.azurewebsites.net. 
+
+# Verifying the lab is working properly (ACI)
 Once the lab has been deployed, you will see a set of resources under the resource group, one per container instance group. Each group will container just one container instance. 
 
 ![Resource group](https://github.com/intelequia/GAB2019ScienceLab/raw/master/images/Deployment3.jpg)
