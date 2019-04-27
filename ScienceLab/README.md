@@ -6,7 +6,7 @@ This project contains instructions to deploy the Global Azure Bootcamp 2019 Scie
 # Quickstart
 To quickly deploy the science lab using Azure Container Instances, click on the button below. **If it's your first deployment, we strongly recommend to read the instructions below.**
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ffaug%2FGlobalAzure%2Fmaster%2F%ScienceLab2Flab%2FGABClient.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ffaug%2FGlobalAzure%2Fmaster%2FScienceLab%2Flab%2FGABClient.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
@@ -31,7 +31,7 @@ In order to participate on the GAB Science Lab you will need:
 The easiest way to deploy the Science Lab is by using Azure Container Instances. We have prepared a resource manager template that simplifies this step, by asking you some parameters that are used in the container that will be used later on the Global Dashboards for statistics and for fun. 
 1. Click on the deployment button below to start the process:
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FIntelequia%2FGAB2019ScienceLab%2Fmaster%2Flab%2FGABClient.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ffaug%2FGlobalAzure%2Fmaster%2FScienceLab%2Flab%2FGABClient.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
