@@ -27,6 +27,27 @@ In order to participate on the GAB Science Lab you will need:
     * locally on your laptop using Docker Desktop, follow instructions at https://www.docker.com/products/docker-desktop
     * on any other environment, check https://docs.docker.com/install/
 
+## Deeployinhg the lab using Azure Kubernetes Service (AKS)
+1. First, you need to create an Azure Kuberetes Service cluster. You can do it from AZ CLI or from Cloud Shell (https://shell.azure.com):
+
+``` shell
+az login
+az group create -n "resource-group-name" 
+az aks create -g "resource-group-name" -n "aks-unique-cluster-name"
+
+az aks get-credentials -g "resource-group-name" -n "aks-unique-cluster-name"
+
+kubectl apply -f ./gab-2019-science-lab.yaml
+```
+
+Please see https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough for more details.
+
+2. Once you have deployed you AKS cluster and connected to it, deploy the Service Manifest by running the following command:
+
+``` shell
+kubectl apply -f ./gab-2019-science-lab.yaml
+```
+
 ## Deploying the lab using Azure Container Instances (ACI)
 The easiest way to deploy the Science Lab is by using Azure Container Instances. We have prepared a resource manager template that simplifies this step, by asking you some parameters that are used in the container that will be used later on the Global Dashboards for statistics and for fun. 
 1. Click on the deployment button below to start the process:
