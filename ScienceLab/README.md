@@ -32,58 +32,21 @@ In order to participate on the GAB Science Lab you will need:
 
 ``` shell
 az login
-az group create -n "resource-group-name" 
-az aks create -g "resource-group-name" -n "aks-unique-cluster-name"
+az group create -n "resource-group-name" --location WestEurope
+az aks create -g "resource-group-name" -n "aks-unique-cluster-name" --generate-ssh-keys
 
-az aks get-credentials -g "resource-group-name" -n "aks-unique-cluster-name"
-
-kubectl apply -f ./gab-2019-science-lab.yaml
 ```
 
 Please see https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough for more details.
 
-2. Once you have deployed you AKS cluster and connected to it, deploy the Service Manifest by running the following command:
+2. Once you have deployed you AKS cluster, connect to it and deploy the Service Manifest by running the following command:
 
 ``` shell
-kubectl apply -f ./gab-2019-science-lab.yaml
+az aks get-credentials -g "resource-group-name" -n "aks-unique-cluster-name"
+wget https://raw.githubusercontent.com/faug/GlobalAzure/master/ScienceLab/kubernetes/globalscience-hki.yml
+nano globalscience-hki.yml
+kubectl apply -f ./globalscience-hki.yml
 ```
-
-## Deploying the lab using Azure Container Instances (ACI)
-The easiest way to deploy the Science Lab is by using Azure Container Instances. We have prepared a resource manager template that simplifies this step, by asking you some parameters that are used in the container that will be used later on the Global Dashboards for statistics and for fun. 
-1. Click on the deployment button below to start the process:
-
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ffaug%2FGlobalAzure%2Fmaster%2FScienceLab%2Flab%2FGABClient.json" target="_blank">
-    <img src="http://azuredeploy.net/deploybutton.png"/>
-</a>
-
-2. Fill the form. You can get info about each field if you hold the cursor over the info icon.
-    * Choose the subscription and resource group you where you want to deploy the container instances
-    * **Location**: **IMPORTANT: the Azure Container Instances service is not available in all the regions**. At time of writing, you must choose between one of these locations:
-        * "Central US"
-        * "East US"
-        * "East US2"
-        * "North Central US"
-        * "South Central US"
-        * "West US"
-        * "West US2"
-        * "North Europe"
-        * "West Europe"
-        * "East Asia"
-        * "Southeast Asia"
-        * "Japan East"
-        * "Australia East"
-        * "Central India"
-        * "South India"
-        * "Canada Central"
-    * **Email, FullName, TeamName, CompanyName**: fill with your personal info. It be displayed on the global dashboards (e-mail will not)
-    * **CountryCode**: the 2 character ISO2 country code. Find your code at [Wikipedia](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
-    * **LabKeyCode**: Is a predefined string with your location LAB Key. Key for Helsinki is QCE-FBK-EIM
-    * **InstanceCount**: Number of container instance groups (100 or less, there is a default limit of 100 ACIs per Azure susbcription, see https://github.com/MicrosoftDocs/azure-docs/blob/master/includes/container-instances-limits.md). Check the available instances/quotas in your subscription before setting up a big number. **TIP: You can start with 1 or 2 container instance groups and repeat this process later to deploy more instances**
-	
-	![Deployment parameters](https://github.com/intelequia/GAB2019ScienceLab/raw/master/images/Deployment1.jpg)
-
-
-Click on the Accept the Terms and Conditions checkbox, and relax waiting for the green check. Will take around 5 minutes to complete.
 
 
 # Verifying the lab is working properly (AKS)
@@ -107,26 +70,6 @@ There is also a log area where you can check what is happening inside the GAB cl
 
 Each input takes around 5 minutes to be processed by a container (pipeline 1 + pipeline 2 execution times). After the input is processed, it goes to the upload queue, and once uploaded, you start appearing on the Global Azure Bootcamp Science lab Dashboards, available at https://gablabdashboard.azurewebsites.net. 
 
-# Verifying the lab is working properly (ACI)
-Once the lab has been deployed, you will see a set of resources under the resource group, one per container instance group. Each group will container just one container instance. 
-
-![Resource group](https://github.com/intelequia/GAB2019ScienceLab/raw/master/images/Deployment3.jpg)
-
-Click on one of the container instances, and get the public DNS name from the General Settings area. 
-
-![Deployment URL](https://github.com/intelequia/GAB2019ScienceLab/raw/master/images/Deployment4.jpg)
-
-Browse the URL and you will be able to see if the lab is working properly. There are three areas:
-* **Inputs Downloaded**: a green light indicates that is working properly. Every 10 seconds a background process checks if there are no inputs to process, and then downloads a new batch of inputs;
-* **Processing**: a green light indicates that is working properly. A background process starts processing the inputs as soon as they are available locally. The inputs are processed one by one and results are saved into an internal output queue;
-* **Ouputs Uploaded**: a green light indicates that is working properly. Every 10 seconds a background process checks if there are outputs ready to be uploaded to the GAB server.
-
-There is also a log area where you can check what is happening inside the GAB client.
-
-![Deployment details](https://github.com/intelequia/GAB2019ScienceLab/raw/master/images/Deployment6.jpg)
-
-Each input takes around 5 minutes to be processed by a container (pipeline 1 + pipeline 2 execution times). After the input is processed, it goes to the upload queue, and once uploaded, you start appearing on the Global Azure Bootcamp Science lab Dashboards, available at https://gablabdashboard.azurewebsites.net. 
-
 # Decomissioning the Science Lab
 Your lab deployment will continue working processing inputs until you delete the deployment resources. Note that this year our intention is to continue processing information after the GAB day. 
 
@@ -139,14 +82,13 @@ Thanks for your support on Global Azure Bootcamp 2019 Science Lab. Live Long and
 # Frequently Asked Questions
 1. **How much will cost?**
 
-The lab uses an Azure Container Instances. The cost of each ACI is around $1 for a full day (consumption 1vCPU and 1GB RAM over 24h).  
-So for example, if you deploy the science lab with 4 container instances during 12 hours, the costs will be under $2.
+The lab uses an Azure Kubernetes Service. You will only pay for computing which is 40$ for each node. Default deployment is 3 which is around 120$
 For more information about pricing:
-* [Azure Container Instances](https://azure.microsoft.com/en-us/pricing/details/container-instances/)
+* [Azure Kubernetes Service](https://azure.microsoft.com/en-us/pricing/details/kubernetes-service/)
 
 2. **How many instances can I deploy?**
 
-If you are deploying the lab using Azure Container Instances, there is a limit of 60 ACIs per Azure Subscription. You can deploy more than 60 if you use more subscriptions, but please, do the maths following FAQ #1. Remember you can also deploy the science lab on your own laptop or on any other Docker powered environment.
+If you are deploying the lab using Azure Kubernetes Service, there is a limit of vcores per Azure Subscription. You can deploy more than 10 if you use more subscriptions, but please, do the maths following FAQ #1. Remember you can also deploy the science lab on your own laptop or on any other Docker powered environment.
 
 3. **Can I start crunching data before April 27th?**
 
