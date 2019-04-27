@@ -24,7 +24,7 @@ In order to participate on the GAB Science Lab you will need:
 ``` shell
 az login
 az group create -n "resource-group-name" --location WestEurope
-az aks create -g "resource-group-name" -n "aks-unique-cluster-name" --generate-ssh-keys
+az aks create -g "resource-group-name" -c 2 -n "aks-unique-cluster-name" --generate-ssh-keys
 
 ```
 
