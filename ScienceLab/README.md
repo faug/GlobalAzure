@@ -3,15 +3,6 @@
 # Global Azure Bootcamp 2019 - Science Lab
 This project contains instructions to deploy the Global Azure Bootcamp 2019 Science Lab
 
-# Quickstart
-To quickly deploy the science lab using Azure Container Instances, click on the button below. **If it's your first deployment, we strongly recommend to read the instructions below.**
-
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ffaug%2FGlobalAzure%2Fmaster%2FScienceLab%2Flab%2FGABClient.json" target="_blank">
-    <img src="http://azuredeploy.net/deploybutton.png"/>
-</a>
-
-https://github.com/faug/GlobalAzure/
-
 # Introduction
 This project contains all the source code for the Global Azure Bootcamp 2019 Science Lab. Created by David Rodriguez ([@davidjrh](http://twitter.com/davidjrh)), Martin Abbott ([@martinabbott](http://twitter.com/martinabbott)) and Santiago Porras ([@saintwukong](http://twitter.com/saintwukong)) for the Global Azure Bootcamp 2019 Science Lab running Enric Pallé, Diego Hidalgo and Sebastian Hidalgo's Machine Learning algorithms for exoplanet hunting at the [Instituto de Astrofisica de Canarias](http://www.iac.es/index.php?lang=en) using TESS mission data from NASA.
 
